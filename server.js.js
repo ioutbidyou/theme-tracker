@@ -11,10 +11,12 @@ app.get('/track', (req, res) => {
   const log = `${timestamp} - ${store}\n`;
 
   fs.appendFile('log.txt', log, err => {
-    if (err) console.error('Error logging store:', err);
+    if (err) {
+      console.error('Error logging store:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.send('Tracked');
   });
-
-  res.send('Tracked');
 });
 
 app.listen(port, () => {
